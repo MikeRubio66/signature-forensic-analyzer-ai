@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Signature Analyzer AI</title>
+  <style>
+    body{font-family: Arial,Helvetica,sans-serif; padding:20px; background:#f5f7fb}
+    .card{background:#fff;padding:20px;border-radius:8px;max-width:700px;margin:auto;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+    input[type=file]{display:block;margin:12px 0}
+    .result{margin-top:12px;padding:12px;border-radius:6px;background:#eef}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Signature Analyzer AI (demo)</h2>
+    <p>Sube una imagen de firma (PNG/JPG). El sistema devuelve la probabilidad de alteración (demo si no hay modelo entrenado).</p>
+    <form method="post" action="/predict" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*" required/>
+      <button type="submit">Analizar</button>
+    </form>
+
+    {% if result %}
+      <div class="result">
+        {% if result.error %}
+          <b>Error:</b> {{ result.error }}
+        {% elif result.demo %}
+          <b>Modo Demo</b><br/>Score: {{ result.score }}<br/><small>{{ result.note }}</small>
+        {% else %}
+          <b>Score (prob. alteración):</b> {{ result.score }}
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
